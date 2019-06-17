@@ -1,4 +1,4 @@
-import * as Twig from 'twig';
+import { join } from 'path';
 import { Server } from 'http';
 import * as express from 'express';
 import * as socket from 'socket.io';
@@ -14,14 +14,17 @@ const app: express.Express = express();
 export const http = new Server(app);
 export const io = socket(http);
 
+app.set('views', join(__dirname, '../../src/Resources/Views'));
+app.set('view engine', 'twig');
+app.set('twig options', {
+    allow_async: true
+});
+
 app.use(session({
     secret: 'dQ4mZCx7HkkjHV4zxJcksuPjDciImrJC',
     resave: false,
     saveUninitialized: true
 }));
-app.set('twig options', {
-    allow_async: true
-});
 
 app.use('/user', onlyUsers, Web);
 app.use('/auth', onlyGuests, Auth);

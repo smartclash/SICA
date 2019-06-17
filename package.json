@@ -21,6 +21,6 @@
   },
   "scripts": {
     "tsw": "tsc -w -p tsconfig.json",
-    "dev": "nodemon ."
+    "dev": "nodemon . -e twig,js"
   }
 }
