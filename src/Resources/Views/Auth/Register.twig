@@ -7,22 +7,25 @@
                 <h5 class="card-header">Register</h5>
                 <div class="card-body">
                     <br>
-                    <form action="">
+                    <form action="/auth/register" method="POST">
                         <div class="form-group">
                             <label for="username">Username</label>
                             <div class="input-group">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text">@</span>
                                 </div>
-                                <input type="text" class="form-control" id="username" placeholder="Username" name="username" required>
+                                <input type="text" class="form-control {% if username %}is-invalid{% endif %}" id="username" placeholder="Username" name="username" required>
                                 <div class="invalid-feedback">
-                                    Please choose a username.
+                                    {{ username }}
                                 </div>
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="email">Email:</label>
-                            <input type="email" name="email" id="email" class="form-control" required>
+                            <input type="email" name="email" id="email" class="form-control {% if email %}is-invalid{% endif %}" required>
+                            <div class="invalid-feedback">
+                                {{ email }}
+                            </div>
                         </div>
                         <div class="form-group">
                             <label for="password">Password:</label>

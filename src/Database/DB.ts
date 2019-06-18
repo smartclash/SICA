@@ -1,10 +1,9 @@
-import { join } from 'path';
-import * as lowdb from 'lowdb';
-import * as FileSync from 'lowdb/adapters/FileSync';
+import * as mongoose from 'mongoose';
 
-const adapter = new FileSync(join(__dirname, '/database.json'));
-const DB = lowdb(adapter);
+(<any>mongoose).Promise = global.Promise;
+mongoose.connect(
+    'mongodb://alphaman:passwordROFL1@ds161148.mlab.com:61148/smartstats',
+    { useNewUrlParser: true }
+);
 
-DB.defaults({ users: {} }).write();
-
-export default DB;
+export default mongoose;

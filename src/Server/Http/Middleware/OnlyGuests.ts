@@ -1,10 +1,10 @@
 import { Request, Response, NextFunction } from 'express';
 
 const onlyGuests = (req: Request, res: Response, next: NextFunction) => {
-    if (! req.session.loggedIn)
-        return next();
+    if (req.user)
+        return res.redirect('/user/');
 
-    return res.redirect('/auth/login');
+    return next();
 };
 
 export default onlyGuests;
