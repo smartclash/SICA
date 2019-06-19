@@ -1,0 +1,62 @@
+{% extends 'Layout/Main.twig' %}
+
+{% block header %}
+    <style>
+        .hidden {
+            display: none;
+            visibility: hidden;
+        } 
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <div class="card">
+                <h5 class="card-header">Let's chat</h5>
+                <div class="card-body hidden" id="body">
+                    <ul class="list-group list-group-flush" id="messagePanel">
+                    </ul>
+                </div>
+                <div class="card-footer">
+                    <form id="sendForm">
+                        <div class="form-row">
+                            <div class="col-md-10">
+                                <input type="text" name="message" id="message" placeholder="Enter your message" class="form-control">
+                            </div>
+                            <div class="col-md-2">
+                                <input type="submit" value="Send" class="btn btn-primary btn-small">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block footer %}
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        var socket = io();
+        $('#sendForm').submit(e => {
+            e.preventDefault();
+            socket.emit('message', {
+                name: '{{ name }}',
+                message: $('#message').val()
+            });
+            $('#body').removeClass('hidden');
+            $('#message').val('');
+
+            return false;
+        });
+
+        socket.on('message', msg => {
+            $('#messagePanel').append(
+                $('<li class="list-group-item d-flex justify-content-between align-items-center">')
+                    .text(`${msg.name} - ${msg.message}`)
+                    .append(`<span class="badge badge-primary badge-pill">${msg.type}</span>`)
+            );
+        });
+    </script>
+{% endblock %}
