@@ -1,3 +1,5 @@
 import { http } from './Server/App';
 
-http.listen(8080, () => console.log('Listening on *:8080'));
+const PORT = process.env.PORT || 8080;
+
+http.listen(PORT, () => console.log('Listening on *:8080'));
