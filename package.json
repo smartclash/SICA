@@ -31,7 +31,6 @@
   },
   "scripts": {
     "tsc": "tsc -p tsconfig.json",
-    "postinstall": "npm run tsc",
     "tsw": "tsc -w -p tsconfig.json",
     "dev": "nodemon . -e twig,js"
   }
