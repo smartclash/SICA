@@ -13,7 +13,8 @@
     "passport-local": "^1.0.0",
     "socket.io": "^2.2.0",
     "twig": "^1.13.3",
-    "validator": "^11.0.0"
+    "validator": "^11.0.0",
+    "typescript": "^3.5.1"
   },
   "devDependencies": {
     "@types/bcrypt": "^3.0.0",
@@ -26,11 +27,14 @@
     "@types/passport-local": "^1.0.33",
     "@types/socket.io": "^2.1.2",
     "@types/validator": "^10.11.1",
-    "nodemon": "^1.19.1",
-    "typescript": "^3.5.1"
+    "nodemon": "^1.19.1"
+  },
+  "engines":{
+    "node":"11.7.0"
   },
   "scripts": {
-    "tsc": "tsc -p tsconfig.json",
+    "start": "node dist/Index.js",
+    "postinstall": "tsc -p tsconfig.json",
     "tsw": "tsc -w -p tsconfig.json",
     "dev": "nodemon . -e twig,js"
   }
