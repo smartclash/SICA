@@ -1,10 +1,10 @@
 import { Server } from 'socket.io';
-import disconnected from './Listeners/Disconnected';
 import handleMessage from './Listeners/Messages';
+import updateOnlineUsers from './Listeners/UpdateOnlineUsers';
 
 class WebSocket {
     private io: Server;
-    private users: Array<String>;
+    private users: Array<any> = [];
 
     constructor(io: Server) {
         this.io = io;
@@ -12,9 +12,20 @@ class WebSocket {
 
     bootstrap() {
         this.io.on('connection', socket => {
-            console.log('A new client connected', socket.id);
-            disconnected(socket);
+            socket.on('information', ({ name }) => {
+                this.users.push({
+                    id: socket.id,
+                    name,
+                });
+                updateOnlineUsers(socket, this.users, this.io);
+            });
+
             handleMessage(socket, this.io);
+
+            socket.on('disconnect', () => {
+                this.users = this.users.filter(user => user.id != socket.id);
+                updateOnlineUsers(socket, this.users, this.io);
+            });
         });
     }
 }

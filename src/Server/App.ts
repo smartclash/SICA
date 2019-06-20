@@ -7,6 +7,7 @@ import * as session from 'express-session';
 
 import Web from './Http/Routes/User';
 import Auth from './Http/Routes/Auth';
+import Global from './Http/Routes/Global';
 import WebSocket from './Socket/WebSocket';
 import passport from './Passport/Passport';
 import onlyUsers from './Http/Middleware/OnlyUsers';
@@ -33,6 +34,7 @@ app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
 
+app.use('/', Global);
 app.use('/user', onlyUsers, Web);
 app.use('/auth', onlyGuests, Auth);
 

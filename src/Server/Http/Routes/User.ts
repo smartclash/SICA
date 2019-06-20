@@ -1,11 +1,15 @@
 import { Router } from 'express';
 
-const web: Router = Router();
+const user: Router = Router();
 
-web.get('/', (req, res) => {
+user.get('/', (req, res) => {
     res.render('User/Main.twig', {
         name: req.user.username
     });
 });
+user.get('/logout', (req, res) => {
+    req.logout();
+    res.redirect('/auth/login');
+});
 
-export default web;
+export default user;

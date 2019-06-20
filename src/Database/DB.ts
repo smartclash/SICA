@@ -5,5 +5,6 @@ mongoose.connect(
     'mongodb://alphaman:passwordROFL1@ds161148.mlab.com:61148/smartstats',
     { useNewUrlParser: true }
 );
+mongoose.set('useCreateIndex', true);
 
 export default mongoose;

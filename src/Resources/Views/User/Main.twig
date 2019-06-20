@@ -11,10 +11,10 @@
 
 {% block content %}
     <div class="row">
-        <div class="col-md-8 offset-md-2">
+        <div class="col-md-8">
             <div class="card">
                 <h5 class="card-header">Let's chat</h5>
-                <div class="card-body hidden" id="body">
+                <div class="card-body" id="body">
                     <ul class="list-group list-group-flush" id="messagePanel">
                     </ul>
                 </div>
@@ -32,20 +32,36 @@
                 </div>
             </div>
         </div>
+        <div class="col-md-4">
+            <div class="card">
+                <h5 class="card-header">Online Users</h5>
+                <div class="card-body">
+                    <ul class="list-group list-group-flush" id="onlinePanel">
+                    </ul>
+                </div>
+                <div class="card-footer">
+                    <a href="/user/logout" class="card-link">Logout</a>
+                </div>
+            </div>
+        </div>
     </div>
 {% endblock %}
 
 {% block footer %}
     <script src="/socket.io/socket.io.js"></script>
     <script>
-        var socket = io();
+        const socket = io();
+
+        socket.emit('information', {
+            name: '{{ name }}'
+        });
+
         $('#sendForm').submit(e => {
             e.preventDefault();
             socket.emit('message', {
                 name: '{{ name }}',
                 message: $('#message').val()
             });
-            $('#body').removeClass('hidden');
             $('#message').val('');
 
             return false;
@@ -57,6 +73,16 @@
                     .text(`${msg.name} - ${msg.message}`)
                     .append(`<span class="badge badge-primary badge-pill">${msg.type}</span>`)
             );
+        });
+
+        socket.on('update', info => {
+            $('#onlinePanel').empty();
+            for(let i = 0; i < info.length; i++) {
+                $('#onlinePanel').append(
+                    $('<li class="list-group-item">')
+                        .text(`${info[i].name}`)
+                );
+            }
         });
     </script>
 {% endblock %}
