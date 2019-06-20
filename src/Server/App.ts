@@ -7,7 +7,7 @@ import * as session from 'express-session';
 
 import Web from './Http/Routes/User';
 import Auth from './Http/Routes/Auth';
-import Listeners from './Socket/Listeners';
+import WebSocket from './Socket/WebSocket';
 import passport from './Passport/Passport';
 import onlyUsers from './Http/Middleware/OnlyUsers';
 import onlyGuests from './Http/Middleware/OnlyGuests';
@@ -36,4 +36,4 @@ app.use(passport.session());
 app.use('/user', onlyUsers, Web);
 app.use('/auth', onlyGuests, Auth);
 
-new Listeners(io).bootstrap();
+new WebSocket(io).bootstrap();
